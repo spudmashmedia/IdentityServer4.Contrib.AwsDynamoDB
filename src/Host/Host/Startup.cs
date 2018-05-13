@@ -2,19 +2,14 @@
  *  Copyright (c) Spudmash Media Pty Ltd. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using IdentityServer4;
-using IdentityServer4.Models;
 using IdentityServer4.Stores;
+using IdentityServer4.Contrib.AwsDynamoDB.Repositories;
+using Amazon.DynamoDBv2;
 
 namespace Host
 {
@@ -32,10 +27,15 @@ namespace Host
         {
             services.AddMvc();
 
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonDynamoDB>();
 
+            services.AddTransient<IPersistedGrantStore, PersistedGrantRepository>();
 
             services.AddIdentityServer()
-                    .AddDeveloperSigningCredential();
+                    .AddDeveloperSigningCredential()
+                    .AddClientStore<ClientRepository>()
+                    .AddResourceStore<ResourceRepository>();
                    
         }
 
