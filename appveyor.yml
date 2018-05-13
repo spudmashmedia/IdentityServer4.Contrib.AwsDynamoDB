@@ -15,7 +15,7 @@ deploy:
     secure: W4YjBHFnuE76HpsS3iBZ7z1oPzFVAOjNPfcCofmoF47re+9jH1R625k7VAVHIvNZ
   skip_symbols: true
   on:
-    branch: dev
+    branch: master
 
 image: Visual Studio 2017
 
