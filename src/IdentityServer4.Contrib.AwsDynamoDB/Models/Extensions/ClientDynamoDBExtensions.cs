@@ -10,20 +10,40 @@ using Newtonsoft.Json;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models.Extensions
 {
+    /// <summary>
+    /// Client dynamo DBE xtensions.
+    /// </summary>
     public static class ClientDynamoDBExtensions
     {
-        public static Client GetClient(this ClientDynamoDB cd){
+        /// <summary>
+        /// Gets the client.
+        /// </summary>
+        /// <returns>The client.</returns>
+        /// <param name="cd">Cd.</param>
+        public static Client GetClient(this ClientDynamoDB cd)
+        {
             if (cd == null) return null;
 
             return JsonConvert.DeserializeObject<Client>(cd.JsonString);
         }
 
-        public static IEnumerable<Client> GetClients(this IEnumerable<ClientDynamoDB> cd){
+        /// <summary>
+        /// Gets the clients.
+        /// </summary>
+        /// <returns>The clients.</returns>
+        /// <param name="cd">Cd.</param>
+        public static IEnumerable<Client> GetClients(this IEnumerable<ClientDynamoDB> cd)
+        {
             if (cd == null) return null;
 
             return cd.Select(item => item.GetClient());
         }
 
+        /// <summary>
+        /// Gets the client dynamo db.
+        /// </summary>
+        /// <returns>The client dynamo db.</returns>
+        /// <param name="cd">Cd.</param>
         public static ClientDynamoDB GetClientDynamoDB(this Client cd)
         {
             if (cd == null || string.IsNullOrEmpty(cd.ClientId)) return null;
@@ -35,6 +55,11 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models.Extensions
             };
         }
 
+        /// <summary>
+        /// Clients the dynamo DB.
+        /// </summary>
+        /// <returns>The dynamo DB.</returns>
+        /// <param name="cd">Cd.</param>
         public static IEnumerable<ClientDynamoDB> ClientDynamoDBs(this IEnumerable<Client> cd)
         {
             if (cd == null || cd.Count() == 0) return null;
