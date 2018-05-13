@@ -7,14 +7,14 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models
 {
-    [DynamoDBTable("Is4Client")]
-    public class ClientDynamoDB
+    [DynamoDBTable("Is4IdentityResource")]
+    public class IdentityResourceDynamoDB
     {
         [DynamoDBHashKey]
-        public string ClientId { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the json serialized Client object
+        /// Gets or sets the json serialized IdentityResource object.
         /// </summary>
         /// <value>The json string.</value>
         [DynamoDBProperty]

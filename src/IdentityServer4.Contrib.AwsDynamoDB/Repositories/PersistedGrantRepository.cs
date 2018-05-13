@@ -45,6 +45,8 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// <param name="subjectId">Subject identifier.</param>
         public async Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
+            if (string.IsNullOrEmpty(subjectId)) { return null; }
+
             IEnumerable<PersistedGrant> result = null;
 
             try
@@ -72,6 +74,8 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// <param name="key">Key.</param>
         public async Task<PersistedGrant> GetAsync(string key)
         {
+            if (string.IsNullOrEmpty(key)) { return null; }
+
             PersistedGrant result = null;
 
             try

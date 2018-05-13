@@ -3,18 +3,22 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using Amazon.DynamoDBv2.DataModel;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models
 {
-    [DynamoDBTable("Is4Client")]
-    public class ClientDynamoDB
+    [DynamoDBTable("Is4ApiResource")]
+    public class ApiResourceDynamoDB
     {
         [DynamoDBHashKey]
-        public string ClientId { get; set; }
+        public string Name { get; set; }
+
+        [DynamoDBRangeKey]
+        public IEnumerable<string> ScopeNames { get; set; }
 
         /// <summary>
-        /// Gets or sets the json serialized Client object
+        /// Gets or sets the json serialized ApiResource object
         /// </summary>
         /// <value>The json string.</value>
         [DynamoDBProperty]
