@@ -64,7 +64,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models.Extensions
                 SubjectId = pg.SubjectId,
                 Type = pg.Type,
                 CreationTime = AWSSDKUtils.ConvertToUnixEpochSecondsString(pg.CreationTime),
-                Expiration = AWSSDKUtils.ConvertToUnixEpochSecondsString(pg.Expiration),
+                Expiration = AWSSDKUtils.ConvertToUnixEpochSecondsString(pg.Expiration.Value),
                 Data = pg.Data
             };
         }

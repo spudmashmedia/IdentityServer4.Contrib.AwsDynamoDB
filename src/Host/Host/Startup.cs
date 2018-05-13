@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using IdentityServer4;
+using IdentityServer4.Models;
+using IdentityServer4.Stores;
 
 namespace Host
 {
@@ -30,12 +32,11 @@ namespace Host
         {
             services.AddMvc();
 
+
+
             services.AddIdentityServer()
-                    .AddDeveloperSigningCredential()
-                    .AddInMemoryClients()
-                    .AddInMemoryIdentityResources()
-                    .AddInMemoryApiResources()
-                    .AddInMemoryPersistedGrants();
+                    .AddDeveloperSigningCredential();
+                   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -62,7 +62,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
                 await Task.FromException(ex);
             }
 
-            await Task.FromResult(result);
+            return await Task.FromResult(result);
         }
 
         /// <summary>
