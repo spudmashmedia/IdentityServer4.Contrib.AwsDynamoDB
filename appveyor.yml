@@ -1,14 +1,17 @@
 version: 1.0.{build}
+
 branches:
   only:
   - master
   - /feature*/
-  -/pr*/
+
 build_script:
 - ps: .\build.ps1
 test: off
+
 artifacts:
 - path: artifacts/packages/*.nupkg
+
 deploy:
 - provider: NuGet
   server: https://www.myget.org/feed/Packages/spudmashmedia
