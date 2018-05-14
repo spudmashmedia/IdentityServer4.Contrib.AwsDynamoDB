@@ -8,14 +8,14 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models
 {
-    [DynamoDBTable("Is4ApiResource")]
+    [DynamoDBTable("ApiResource")]
     public class ApiResourceDynamoDB
     {
         [DynamoDBHashKey]
         public string Name { get; set; }
 
-        [DynamoDBRangeKey]
-        public IEnumerable<string> ScopeNames { get; set; }
+        [DynamoDBProperty]
+        public List<string> ScopeNames { get; set; }
 
         /// <summary>
         /// Gets or sets the json serialized ApiResource object

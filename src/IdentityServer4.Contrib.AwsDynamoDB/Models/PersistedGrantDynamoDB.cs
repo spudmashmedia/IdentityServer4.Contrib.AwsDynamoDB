@@ -7,19 +7,19 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models
 {
-    [DynamoDBTable("Is4PersistedGrant")]
+    [DynamoDBTable("PersistedGrant")]
     public class PersistedGrantDynamoDB
     {
         [DynamoDBHashKey]
         public string Key { get; set; }
 
-        [DynamoDBRangeKey]
+        [DynamoDBProperty]
         public string ClientId { get; set; }
 
-        [DynamoDBRangeKey]
+        [DynamoDBProperty]
         public string SubjectId { get; set; }
 
-        [DynamoDBRangeKey]
+        [DynamoDBProperty]
         public string Type { get; set; }
 
         /// <summary>

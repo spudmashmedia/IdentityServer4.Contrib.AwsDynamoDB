@@ -7,7 +7,7 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models
 {
-    [DynamoDBTable("Is4Client")]
+    [DynamoDBTable("Client")]
     public class ClientDynamoDB
     {
         [DynamoDBHashKey]

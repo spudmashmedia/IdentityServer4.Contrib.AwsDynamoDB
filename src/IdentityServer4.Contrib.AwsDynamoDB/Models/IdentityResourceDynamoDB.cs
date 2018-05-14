@@ -7,7 +7,7 @@ using Amazon.DynamoDBv2.DataModel;
 
 namespace IdentityServer4.Contrib.AwsDynamoDB.Models
 {
-    [DynamoDBTable("Is4IdentityResource")]
+    [DynamoDBTable("IdentityResource")]
     public class IdentityResourceDynamoDB
     {
         [DynamoDBHashKey]

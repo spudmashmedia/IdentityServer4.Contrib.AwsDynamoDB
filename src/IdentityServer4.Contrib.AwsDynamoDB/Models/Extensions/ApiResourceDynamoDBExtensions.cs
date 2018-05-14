@@ -51,7 +51,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models.Extensions
             return new ApiResourceDynamoDB
             {
                 Name = ap.Name,
-                ScopeNames = ap.Scopes.Select(x => x.Name),
+                ScopeNames = ap?.Scopes?.Select(x => x.Name)?.ToList(),
                 JsonString = JsonConvert.SerializeObject(ap)
             };
         }

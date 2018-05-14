@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using IdentityServer4.Stores;
 using IdentityServer4.Contrib.AwsDynamoDB.Repositories;
 using Amazon.DynamoDBv2;
+using Host.Configuration;
 
 namespace Host
 {
@@ -30,20 +31,35 @@ namespace Host
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
 
-            services.AddTransient<IPersistedGrantStore, PersistedGrantRepository>();
-
+            //inmemory
             services.AddIdentityServer()
                     .AddDeveloperSigningCredential()
-                    .AddClientStore<ClientRepository>()
-                    .AddResourceStore<ResourceRepository>();
-                   
+                    .AddInMemoryClients(Clients.Get())
+                    .AddInMemoryApiResources(Resources.GetApiResources())
+                    .AddInMemoryIdentityResources(Resources.GetIdentityResources())
+                    .AddTestUsers(TestUsers.Users);
+            
+
+            /*
+            //dynamodb
+            services.AddIdentityServer()
+                    .AddDeveloperSigningCredential()
+                    .AddInMemoryClients(Clients.Get())
+                    .AddInMemoryApiResources(Resources.GetApiResources())
+                    .AddInMemoryIdentityResources(Resources.GetIdentityResources())
+                    .AddTestUsers(TestUsers.Users);
+            services.AddTransient<IPersistedGrantStore, PersistedGrantRepository>();
+            */     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseMvc();
+
+
             app.UseIdentityServer();
         }
+
     }
 }

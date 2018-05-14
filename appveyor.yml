@@ -3,6 +3,7 @@ branches:
   only:
   - master
   - /feature*/
+  -/pr*/
 build_script:
 - ps: .\build.ps1
 test: off

@@ -63,5 +63,27 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             return response;
         }
+
+        /// <summary>
+        /// Stores the client async.
+        /// </summary>
+        /// <returns>The client async.</returns>
+        /// <param name="item">Item.</param>
+        public async Task StoreClientAsync(Client item){
+            try
+            {
+                using (var context = new DynamoDBContext(client))
+                {
+                    await context.SaveAsync(item.GetClientDynamoDB());
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(default(EventId), ex, "ClientRepository.StoreClientAsync failed with Client {item}", item);
+                throw;
+            }
+
+            await Task.CompletedTask;
+        }
     }
 }

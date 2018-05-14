@@ -209,9 +209,15 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
             {
                 using (var context = new DynamoDBContext(client))
                 {
-                    var dataset = await context.ScanAsync<IdentityResourceDynamoDB>(null).GetRemainingAsync();
-                    if(dataset.Any()){
-                        response = dataset.Select(item => item.GetIdentityResource()).ToList();
+                    var batch = context.ScanAsync<IdentityResourceDynamoDB>(null);
+                    while(!batch.IsDone)
+                    {
+                        var dataset = await batch.GetNextSetAsync();
+
+                        if (dataset.Any())
+                        {
+                            response = dataset.Select(item => item.GetIdentityResource()).ToList();
+                        }
                     }
                 }
             }
@@ -242,6 +248,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
                     {
                         response = dataset.Select(item => item.GetApiResource()).ToList();
                     }
+
                 }
             }
             catch (Exception ex)
@@ -252,6 +259,51 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
             }
 
             return response;
+        }
+
+        /// <summary>
+        /// Stores the API resource.
+        /// </summary>
+        /// <returns>The API resource.</returns>
+        /// <param name="item">Item.</param>
+        public async Task StoreApiResource(ApiResource item){
+            try
+            {
+                using (var context = new DynamoDBContext(client))
+                {
+                    await context.SaveAsync(item.GetApiResourceDynamoDB());
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(default(EventId), ex, "ResourceRepository.StoreApiResource failed with ApiResource {item}", item);
+                throw;
+            }
+
+            await Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Stores the identity resource.
+        /// </summary>
+        /// <returns>The identity resource.</returns>
+        /// <param name="item">Item.</param>
+        public async Task StoreIdentityResource(IdentityResource item)
+        {
+            try
+            {
+                using (var context = new DynamoDBContext(client))
+                {
+                    await context.SaveAsync(item.GetIdentityResourceDynamoDB());
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(default(EventId), ex, "ResourceRepository.StoreIdentityResource failed with IdentityResource {item}", item);
+                throw;
+            }
+
+            await Task.CompletedTask;
         }
     }
 }
