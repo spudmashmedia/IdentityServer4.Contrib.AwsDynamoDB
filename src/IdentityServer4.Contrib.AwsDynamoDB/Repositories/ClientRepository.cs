@@ -43,6 +43,8 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// <param name="clientId">Client identifier.</param>
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
+            if (!string.IsNullOrEmpty(clientId)) return null;
+
             Client response = null;
             try
             {
@@ -69,7 +71,10 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// </summary>
         /// <returns>The client async.</returns>
         /// <param name="item">Item.</param>
-        public async Task StoreClientAsync(Client item){
+        public async Task StoreClientAsync(Client item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             try
             {
                 using (var context = new DynamoDBContext(client))

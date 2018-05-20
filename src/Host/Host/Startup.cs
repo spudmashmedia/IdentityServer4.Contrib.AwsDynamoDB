@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using IdentityServer4.Stores;
-using IdentityServer4.Contrib.AwsDynamoDB.Repositories;
-using Amazon.DynamoDBv2;
 using Host.Configuration;
+using IdentityServer4.Contrib.AwsDynamoDB;
+using Microsoft.Extensions.Logging;
+using IdentityServer4.Contrib.AwsDynamoDB.Repositories;
 
 namespace Host
 {
@@ -28,38 +28,33 @@ namespace Host
         {
             services.AddMvc();
 
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonDynamoDB>();
+            services.AddIs4DynamoDB(Configuration);
 
-            //inmemory
-            services.AddIdentityServer()
-                    .AddDeveloperSigningCredential()
-                    .AddInMemoryClients(Clients.Get())
-                    .AddInMemoryApiResources(Resources.GetApiResources())
-                    .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-                    .AddTestUsers(TestUsers.Users);
-            
+            ////inmemory
+            //services.AddIdentityServer()
+            //.AddDeveloperSigningCredential()
+            //.AddInMemoryClients(Clients.Get())
+            //.AddInMemoryApiResources(Resources.GetApiResources())
+            //.AddInMemoryIdentityResources(Resources.GetIdentityResources())
+            //.AddTestUsers(TestUsers.Users);
 
-            /*
             //dynamodb
             services.AddIdentityServer()
                     .AddDeveloperSigningCredential()
-                    .AddInMemoryClients(Clients.Get())
-                    .AddInMemoryApiResources(Resources.GetApiResources())
-                    .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-                    .AddTestUsers(TestUsers.Users);
-            services.AddTransient<IPersistedGrantStore, PersistedGrantRepository>();
-            */     
+                    .AddTestUsers(TestUsers.Users)
+                    .AddClientStore<ClientRepository>()
+                    .AddResourceStore<ResourceRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseMvc();
+            loggerFactory.AddConsole();
 
+            app.UseMvc();
 
             app.UseIdentityServer();
         }
-
     }
 }

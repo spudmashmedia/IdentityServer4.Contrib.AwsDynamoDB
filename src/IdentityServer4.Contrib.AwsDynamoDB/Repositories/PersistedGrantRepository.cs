@@ -206,6 +206,13 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// <param name="key">Key.</param>
         public async Task RemoveAsync(string key)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                await Task.FromException(new ArgumentNullException($"PersistedGrantRepository.RemoveAsync key:{key} is null or empty"));
+                return;
+            }
+
+
             try
             {
                 using (var context = new DynamoDBContext(client))
