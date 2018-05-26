@@ -1,21 +1,53 @@
-import boto3
-import json
+#!/usr/bin/python
 
-# Get the service resource
-ddb = boto3.client('dynamodb')
+import sys, boto3, json, getopt
 
-print('\n\n\n *** Delete IdentityServer4.Contrib.AwsDynamoDB Environment ***\n\n')
+def main(argv):
+   ddbTablePrefix = ''
+   try:
+      opts, args = getopt.getopt(argv,"hp",["prefix="])
+   except getopt.GetoptError:
+      print 'RemoveDynamoDB.py -p <ddbTablePrefix>x'
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h':
+         print 'RemoveDynamoDB.py -p <ddbTablePrefix>h'
+         sys.exit()
+      elif opt in ("-p", "--prefix"):
+         ddbTablePrefix = arg
+         print 'DynamoDB Table prefix is: ', ddbTablePrefix
+         DeleteTables(ddbTablePrefix)
+         sys.exit()
+      else:
+          assert False, "unhandled exception"
 
-ddb.delete_table(TableName='Client')
-print('-removed Client table')
+def DeleteTables(prefix):
+    print 'prefix ', prefix
 
-ddb.delete_table(TableName='ApiResource')
-print('-removed ApiResource table')
+    if prefix:
+        prefix = prefix + '-'
+    else:
+        prefix = "" # make sure blank
 
-ddb.delete_table(TableName='IdentityResource')
-print('-removed IdentityResource table')
+    # Get the service resource
+    ddb = boto3.client('dynamodb')
 
-ddb.delete_table(TableName='PersistedGrant')
-print('-removed PersistedGrant table')
+    print('\n\n\n *** Delete IdentityServer4.Contrib.AwsDynamoDB Environment ***\n\n')
 
-print ('\n\n **** Process completed ***\n\n')
+    ddb.delete_table(TableName=prefix+'Client')
+    print('-removed Client table')
+
+    ddb.delete_table(TableName=prefix+'ApiResource')
+    print('-removed ApiResource table')
+
+    ddb.delete_table(TableName=prefix+'IdentityResource')
+    print('-removed IdentityResource table')
+
+    ddb.delete_table(TableName=prefix+'PersistedGrant')
+    print('-removed PersistedGrant table')
+
+    print ('\n\n **** Process completed ***\n\n')
+
+
+if __name__ == "__main__":
+   main(sys.argv[1:])

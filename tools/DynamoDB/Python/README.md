@@ -16,9 +16,8 @@ https://aws.amazon.com/sdk-for-python/
 
 | Script               | Description                                                         | Command                               |
 | -------------------- | ------------------------------------------------------------------- | ------------------------------------- |
-| Init                 | calls InitilizeDynamoDB.py                                          | ``` > sh init.sh ```                  |
-| InitilizeDynamoDB.py | Creates all relevant tables for IdentityServer4.Contrib.AwsDynamoDB | ``` > python InitilizeDynamoDB.py ``` |
-| RemoveDynamoDB.py    | Removes all relevant tables for IdentityServer4.Contrib.AwsDynamoDB | ``` > python RemoveDynamoDB.py ```    |
+| InitilizeDynamoDB.py | Creates all relevant tables for IdentityServer4.Contrib.AwsDynamoDB | ``` > python InitilizeDynamoDB.py --prefix Development ``` |
+| RemoveDynamoDB.py    | Removes all relevant tables for IdentityServer4.Contrib.AwsDynamoDB | ``` > python RemoveDynamoDB.py --prefix Development```    |
 
 ## Contributing
 1. Fork it!
