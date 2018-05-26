@@ -1,4 +1,9 @@
-﻿using IdentityModel;
+﻿/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Spudmash Media Pty Ltd. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+using IdentityModel;
 using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;

@@ -1,3 +1,8 @@
+#---------------------------------------------------------------------------------------------
+#  Copyright (c) Spudmash Media Pty Ltd. All rights reserved.
+#  Licensed under the MIT License. See License.txt in the project root for license information.
+#---------------------------------------------------------------------------------------------
+
 #!/usr/bin/python
 
 import sys, boto3, json, getopt

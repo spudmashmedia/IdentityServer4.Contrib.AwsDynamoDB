@@ -24,6 +24,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
     public class ResourceRepository : IResourceStore
     {
         private readonly IAmazonDynamoDB client;
+        private readonly DynamoDBContextConfig ddbConfig;
         private readonly ILogger<ResourceRepository> logger;
 
         /// <summary>
@@ -32,9 +33,10 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// </summary>
         /// <param name="client">Client.</param>
         /// <param name="logger">Logger.</param>
-        public ResourceRepository(IAmazonDynamoDB client, ILogger<ResourceRepository> logger)
+        public ResourceRepository(IAmazonDynamoDB client, DynamoDBContextConfig ddbConfig, ILogger<ResourceRepository> logger)
         {
             this.client = client;
+            this.ddbConfig = ddbConfig;
             this.logger = logger;
         }
 
@@ -51,7 +53,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using(var context = new DynamoDBContext(client))
+                using(var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var dataset = await context.QueryAsync<ApiResourceDynamoDB>(name).GetRemainingAsync();
                     response = dataset?.First()?.GetApiResource();
@@ -101,7 +103,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     foreach (var sn in scopeNames)
                     {
@@ -164,7 +166,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     foreach(var sn in scopeNames){
                         var dataset = await context.QueryAsync<IdentityResourceDynamoDB>(sn).GetRemainingAsync();   
@@ -207,7 +209,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var batch = context.ScanAsync<IdentityResourceDynamoDB>(null);
                     while(!batch.IsDone)
@@ -241,7 +243,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var dataset = await context.ScanAsync<ApiResourceDynamoDB>(null).GetRemainingAsync();
                     if (dataset.Any())
@@ -269,7 +271,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         public async Task StoreApiResource(ApiResource item){
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     await context.SaveAsync(item.GetApiResourceDynamoDB());
                 }
@@ -292,7 +294,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         {
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     await context.SaveAsync(item.GetIdentityResourceDynamoDB());
                 }

@@ -44,7 +44,14 @@ namespace Host
                     .AddTestUsers(TestUsers.Users)
                     .AddClientStore<ClientRepository>()
                     .AddResourceStore<ResourceRepository>();
-
+            
+            Setup.SeedDynamoDB(
+                services,
+                Configuration,
+                Clients.Get(),
+                Resources.GetApiResources(),
+                Resources.GetIdentityResources()
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

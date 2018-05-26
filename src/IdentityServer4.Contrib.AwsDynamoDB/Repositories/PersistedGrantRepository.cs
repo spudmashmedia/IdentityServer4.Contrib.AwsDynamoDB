@@ -24,6 +24,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
     public class PersistedGrantRepository : IPersistedGrantStore
     {
         private readonly IAmazonDynamoDB client;
+        private readonly DynamoDBContextConfig ddbConfig;
         private readonly ILogger<PersistedGrantRepository> logger;
 
         /// <summary>
@@ -32,9 +33,10 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// </summary>
         /// <param name="client">Client.</param>
         /// <param name="logger">Logger.</param>
-        public PersistedGrantRepository(IAmazonDynamoDB client, ILogger<PersistedGrantRepository> logger)
+        public PersistedGrantRepository(IAmazonDynamoDB client, DynamoDBContextConfig ddbConfig, ILogger<PersistedGrantRepository> logger)
         {
             this.client = client;
+            this.ddbConfig = ddbConfig;
             this.logger = logger;
         }
 
@@ -51,7 +53,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var obj = await context.QueryAsync<PersistedGrantDynamoDB>(subjectId).GetRemainingAsync();
 
@@ -80,11 +82,12 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
-                    var obj = await context.QueryAsync<PersistedGrantDynamoDB>(key).GetRemainingAsync();
-
-                    result = obj?.First().GetPersistedGrant();
+                    var data = await context.QueryAsync<PersistedGrantDynamoDB>(key).GetRemainingAsync();
+                    if(data.Any()){
+                        result = data.First().GetPersistedGrant();
+                    }
                 }
             }
             catch (Exception ex)
@@ -115,14 +118,13 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
                 return;
             }
 
-
             List<ScanCondition> conditions = new List<ScanCondition>();
             conditions.Add(new ScanCondition(nameof(subjectId), ScanOperator.Equal, subjectId));
             conditions.Add(new ScanCondition(nameof(clientId), ScanOperator.Equal, clientId));
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var batch = context.ScanAsync<PersistedGrantDynamoDB>(conditions);
                     while (!batch.IsDone)
@@ -174,7 +176,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var batch = context.ScanAsync<PersistedGrantDynamoDB>(conditions);
                     while (!batch.IsDone)
@@ -212,24 +214,20 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
                 return;
             }
 
-
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     // find object first
                     var batch = await context.QueryAsync<PersistedGrantDynamoDB>(key).GetRemainingAsync();
-                    var item = batch?.First();
 
-                    // check if object exists
-                    if (item == null)
-                    {
+                    if(batch.Any()){
+                        await context.DeleteAsync(batch.First());
+                    }
+                    else{
                         await Task.FromResult(0);
                         return;
                     }
-
-                    // delete object
-                    await context.DeleteAsync(item);
                 }
             }
             catch (Exception ex)
@@ -251,7 +249,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         {
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     await context.SaveAsync<PersistedGrantDynamoDB>(grant.GetPersistedGrantDynamoDB());
                 }

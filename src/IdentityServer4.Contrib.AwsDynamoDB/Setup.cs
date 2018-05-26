@@ -6,6 +6,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using IdentityServer4.Contrib.AwsDynamoDB.Configuration;
 using IdentityServer4.Contrib.AwsDynamoDB.Repositories;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
@@ -29,10 +31,18 @@ namespace IdentityServer4.Contrib.AwsDynamoDB
     {
         public static IServiceCollection AddIs4DynamoDB(this IServiceCollection collection, IConfiguration configuration)
         {
+
             collection.AddDefaultAWSOptions(configuration.GetAWSOptions());
             collection.AddAWSService<IAmazonDynamoDB>();
-            collection.AddTransient<IClientStore, ClientRepository>();
-            collection.AddTransient<IResourceStore, ResourceRepository>();
+
+            collection.Configure<Id4DdbOptions>(configuration.GetSection("IdentityServer4.Contrib.AwsDynamoDB"));
+
+            var config = new Id4DdbOptions();
+            configuration.GetSection("IdentityServer4.Contrib.AwsDynamoDB").Bind(config);
+            collection.AddSingleton(x => new DynamoDBContextConfig(){ TableNamePrefix = config.TableNamePrefix});
+
+            collection.AddTransient<ClientRepository>();
+            collection.AddTransient<ResourceRepository>();
             collection.AddTransient<IPersistedGrantStore, PersistedGrantRepository>();
 
             return collection;
@@ -52,16 +62,28 @@ namespace IdentityServer4.Contrib.AwsDynamoDB
             var resourceRepo = serviceProvider.GetService<ResourceRepository>();
 
             if(clientItems.Any()){
-                clientItems.ToList().ForEach(async item => await clientRepo.StoreClientAsync(item));
+                //clientItems.ToList().ForEach(async item => await clientRepo.StoreClientAsync(item));
+
+                foreach(var item in clientItems){
+                    clientRepo.StoreClientAsync(item).Wait();
+                }
             }
 
             if(apiResourceItems.Any()){
-                apiResourceItems.ToList().ForEach(async item => await resourceRepo.StoreApiResource(item));
+                //apiResourceItems.ToList().ForEach(async item => await resourceRepo.StoreApiResource(item));
+
+                foreach(var item in apiResourceItems){
+                    resourceRepo.StoreApiResource(item).Wait();
+                }
             }
 
-            if (apiResourceItems.Any())
+            if (identityResourceItems.Any())
             {
-                identityResourceItems.ToList().ForEach(async item => await resourceRepo.StoreIdentityResource(item));
+                //identityResourceItems.ToList().ForEach(async item => await resourceRepo.StoreIdentityResource(item));
+
+                foreach(var item in identityResourceItems){
+                    resourceRepo.StoreIdentityResource(item).Wait();
+                }
             }
         }
     }

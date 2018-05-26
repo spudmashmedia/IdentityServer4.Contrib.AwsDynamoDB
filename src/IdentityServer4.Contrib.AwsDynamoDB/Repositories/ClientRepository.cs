@@ -22,6 +22,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
     public class ClientRepository : IClientStore
     {
         private readonly IAmazonDynamoDB client;
+        private readonly DynamoDBContextConfig ddbConfig;
         private readonly ILogger<ClientRepository> logger;
 
         /// <summary>
@@ -30,9 +31,10 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// </summary>
         /// <param name="client">Client.</param>
         /// <param name="logger">Logger.</param>
-        public ClientRepository(IAmazonDynamoDB client, ILogger<ClientRepository> logger)
+        public ClientRepository(IAmazonDynamoDB client, DynamoDBContextConfig ddbConfig, ILogger<ClientRepository> logger)
         {
             this.client = client;
+            this.ddbConfig = ddbConfig;
             this.logger = logger;
         }
 
@@ -43,12 +45,12 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
         /// <param name="clientId">Client identifier.</param>
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
-            if (!string.IsNullOrEmpty(clientId)) return null;
+            if (string.IsNullOrEmpty(clientId)) return null;
 
             Client response = null;
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     var batch = context.QueryAsync<ClientDynamoDB>(clientId);
 
@@ -77,7 +79,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
 
             try
             {
-                using (var context = new DynamoDBContext(client))
+                using (var context = new DynamoDBContext(client, ddbConfig))
                 {
                     await context.SaveAsync(item.GetClientDynamoDB());
                 }
