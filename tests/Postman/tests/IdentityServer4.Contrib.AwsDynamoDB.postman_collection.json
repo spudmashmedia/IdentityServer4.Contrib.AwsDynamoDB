@@ -1,0 +1,107 @@
+{
+	"variables": [],
+	"info": {
+		"name": "IdentityServer4.Contrib.AwsDynamoDB",
+		"_postman_id": "83874926-98a1-050e-b17e-142a7674ec90",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/connect/token",
+			"request": {
+				"url": "{{host}}/connect/token",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "client",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "alice",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "alice",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "Generate a Access_token + Refresh_token with ResourceOwnerPassword Grant"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/connect/token",
+			"request": {
+				"url": "{{host}}/connect/token",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "client",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "a5f75fc0848dde3eddf7c6c9baa8c3b5be0ae582aae542a1c2b686f5a4661546",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"description": "Generate an Access_token with a Refresh_token."
+			},
+			"response": []
+		}
+	]
+}

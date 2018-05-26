@@ -1,0 +1,25 @@
+{
+  "name": "identityserver4contribawsdynamodbtests",
+  "version": "1.0.0",
+  "description": "Integration Tests with Postman + Newman",
+  "main": "index.js",
+  "scripts": {
+    "test": "newman run ./tests/IdentityServer4.Contrib.AwsDynamoDB.postman_collection.json -e ./env/Is4.Contrib.AwsDynamoDB-Local.postman_environment.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spudmashmedia/IdentityServer4.Contrib.AwsDynamoDB.git"
+  },
+  "keywords": [
+    "IdentityServer4"
+  ],
+  "author": "Spudmash Media",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spudmashmedia/IdentityServer4.Contrib.AwsDynamoDB/issues"
+  },
+  "homepage": "https://github.com/spudmashmedia/IdentityServer4.Contrib.AwsDynamoDB#readme",
+  "dependencies": {
+    "newman": "^3.9.4"
+  }
+}
