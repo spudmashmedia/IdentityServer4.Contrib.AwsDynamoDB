@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4.Contrib.AwsDynamoDB", "src\IdentityServer4.Contrib.AwsDynamoDB\IdentityServer4.Contrib.AwsDynamoDB.csproj", "{83C924BC-153E-4722-83EC-BE22D5192D47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "src\Host\Host\Host.csproj", "{E3402A11-C777-4E37-B71F-3C54A7FF8431}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83C924BC-153E-4722-83EC-BE22D5192D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C924BC-153E-4722-83EC-BE22D5192D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C924BC-153E-4722-83EC-BE22D5192D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C924BC-153E-4722-83EC-BE22D5192D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3402A11-C777-4E37-B71F-3C54A7FF8431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3402A11-C777-4E37-B71F-3C54A7FF8431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3402A11-C777-4E37-B71F-3C54A7FF8431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3402A11-C777-4E37-B71F-3C54A7FF8431}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
