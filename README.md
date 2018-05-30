@@ -1,6 +1,6 @@
 # IdentityServer4.Contrib.AwsDynamoDB
 
-[![Build status](https://ci.appveyor.com/api/projects/status/3mkxmi5y88ln7v05?svg=true)](https://ci.appveyor.com/project/spudmashmedia/identityserver4-contrib-awsdynamodb)
+[![Build status](https://ci.appveyor.com/api/projects/status/3mkxmi5y88ln7v05?svg=true)](https://ci.appveyor.com/project/spudmashmedia/identityserver4-contrib-awsdynamodb) [![NuGet](https://img.shields.io/nuget/v/IdentityServer4.Contrib.AwsDynamoDB.svg)](https://www.nuget.org/packages/IdentityServer4.Contrib.AwsDynamoDB/)
 
 - [IdentityServer4.Contrib.AwsDynamoDB](#identityserver4contribawsdynamodb)
 - [Summary](#summary)
