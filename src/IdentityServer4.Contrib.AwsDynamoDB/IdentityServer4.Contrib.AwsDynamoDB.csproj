@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Identity Server 4 Persistance Storage with AWS DynamoDB</Description>
+
+    <Authors>Spudmash Media</Authors>
+    <AssemblyName>IdentityServer4.Contrib.AwsDynamoDB</AssemblyName>
+    <PackageId>IdentityServer4.Contrib.AwsDynamoDB</PackageId>
+    <PackageTags>OAuth2;OAuth 2.0;OpenID Connect;Security;Identity;IdentityServer;AWS;DynamoDB;</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/IdentityServer/Artwork/master/Logos/IDserver_icon128.jpg</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/spudmashmedia/IdentityServer4.Contrib.AwsDynamoDB</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/spudmashmedia/IdentityServer4.Contrib.AwsDynamoDB/master/LICENSE</PackageLicenseUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
