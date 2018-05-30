@@ -14,7 +14,7 @@ artifacts:
 
 deploy:
 - provider: NuGet
-  server: https://www.myget.org/feed/Packages/spudmashmedia
+  server: https://www.myget.org/F/spudmashmedia/api/v2/package
   api_key:
     secure: W4YjBHFnuE76HpsS3iBZ7z1oPzFVAOjNPfcCofmoF47re+9jH1R625k7VAVHIvNZ
   skip_symbols: true
