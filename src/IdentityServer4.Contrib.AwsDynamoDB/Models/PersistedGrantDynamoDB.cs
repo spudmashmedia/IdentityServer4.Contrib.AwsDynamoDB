@@ -28,7 +28,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models
         /// </summary>
         /// <value>The creation time.</value>
         [DynamoDBProperty]
-        public string CreationTime { get; set; }
+        public int CreationTime { get; set; }
 
         /// <summary>
         /// Use AWSSDKUtils.ConvertToUnixEpochSecondsString() to convert 
@@ -36,7 +36,7 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models
         /// </summary>
         /// <value>The expiration.</value>
         [DynamoDBProperty]
-        public string Expiration { get; set; }
+        public int Expiration { get; set; }
 
         [DynamoDBProperty]
         public string Data { get; set; }

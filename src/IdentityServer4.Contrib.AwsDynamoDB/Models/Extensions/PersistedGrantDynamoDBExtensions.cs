@@ -30,8 +30,8 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models.Extensions
                 ClientId = pgd.ClientId,
                 SubjectId = pgd.SubjectId,
                 Type = pgd.Type,
-                CreationTime = AWSSDKUtils.ConvertFromUnixEpochSeconds(int.Parse(pgd.CreationTime)),
-                Expiration = AWSSDKUtils.ConvertFromUnixEpochSeconds(int.Parse(pgd.Expiration)),
+                CreationTime = AWSSDKUtils.ConvertFromUnixEpochSeconds(pgd.CreationTime),
+                Expiration = AWSSDKUtils.ConvertFromUnixEpochSeconds(pgd.Expiration),
                 Data = pgd.Data
             };
         }
@@ -63,8 +63,8 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Models.Extensions
                 ClientId = pg.ClientId,
                 SubjectId = pg.SubjectId,
                 Type = pg.Type,
-                CreationTime = AWSSDKUtils.ConvertToUnixEpochSecondsString(pg.CreationTime),
-                Expiration = AWSSDKUtils.ConvertToUnixEpochSecondsString(pg.Expiration.Value),
+                CreationTime = AWSSDKUtils.ConvertToUnixEpochSeconds(pg.CreationTime),
+                Expiration = AWSSDKUtils.ConvertToUnixEpochSeconds(pg.Expiration.Value),
                 Data = pg.Data
             };
         }
