@@ -272,12 +272,12 @@ def CreateTables(prefix):
 
     try:
         ttl_response = ddb.update_time_to_live(
-                            TableName= prefix + 'PersistedGrant',
-                            TimeToLiveSpecification={
-                                'Enabled': True,
-                                'AttributeName': 'Expiration'
-                            }
-                        )
+            TableName= prefix + 'PersistedGrant',
+            TimeToLiveSpecification={
+                'Enabled': True,
+                'AttributeName': 'Expiration'
+            }
+        )
         print('+PersistedGrant table enabled ttl')
     except:
         print('-PersistedGrant table already enabled ttl')
