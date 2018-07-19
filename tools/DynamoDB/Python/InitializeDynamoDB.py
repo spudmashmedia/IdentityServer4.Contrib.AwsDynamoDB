@@ -91,7 +91,7 @@ def CreateTables(prefix):
 
     # Create ApiResource Table
     try:
-        client_response = ddb.create_table(
+        apiresource_response = ddb.create_table(
             TableName=prefix + 'ApiResource',
             KeySchema=[
                 {
@@ -138,7 +138,7 @@ def CreateTables(prefix):
 
     # Create IdentityResource Table
     try:
-        client_response = ddb.create_table(
+        identityresource_response = ddb.create_table(
             TableName=prefix + 'IdentityResource',
             KeySchema=[
                 {
@@ -185,7 +185,7 @@ def CreateTables(prefix):
 
     # Create PersistedGrant Table
     try:
-        client_response = ddb.create_table(
+        persistedGrant_response = ddb.create_table(
             TableName=prefix + 'PersistedGrant',
             KeySchema=[
                 {
@@ -269,6 +269,18 @@ def CreateTables(prefix):
         print('+PersistedGrant table created')
     except:
         print('-PersistedGrant table already exists')
+
+    try:
+        ttl_response = ddb.update_time_to_live(
+            TableName= prefix + 'PersistedGrant',
+            TimeToLiveSpecification={
+                'Enabled': True,
+                'AttributeName': 'Expiration'
+            }
+        )
+        print('+PersistedGrant table enabled ttl')
+    except:
+        print('-PersistedGrant table already enabled ttl')
 
 
     print ('\n\n **** Process completed ***\n\n')

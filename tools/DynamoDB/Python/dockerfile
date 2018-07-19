@@ -1,0 +1,4 @@
+FROM python:2-jessie
+WORKDIR app
+COPY *.py ./
+RUN pip install boto3 --user

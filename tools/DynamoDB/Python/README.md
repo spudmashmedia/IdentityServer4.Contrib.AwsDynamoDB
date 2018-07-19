@@ -10,13 +10,13 @@ https://aws.amazon.com/sdk-for-python/
 ### Python Module(s) Dependencies
 | Module | Command                          |
 | ------ | -------------------------------- |
-| robo3  | ``` pip install robo3 --user ``` |
+| boto3  | ``` pip install boto3 --user ``` |
 
 ## Usage
 
 | Script               | Description                                                         | Command                               |
 | -------------------- | ------------------------------------------------------------------- | ------------------------------------- |
-| InitilizeDynamoDB.py | Creates all relevant tables for IdentityServer4.Contrib.AwsDynamoDB | ``` > python InitilizeDynamoDB.py --prefix Development ``` |
+| InitilizeDynamoDB.py | Creates all relevant tables for IdentityServer4.Contrib.AwsDynamoDB. Please note update_time_to_live will first fail on PersistedGrant table, wait until table is created and re-run script again| ``` > python InitilizeDynamoDB.py --prefix Development ``` |
 | RemoveDynamoDB.py    | Removes all relevant tables for IdentityServer4.Contrib.AwsDynamoDB | ``` > python RemoveDynamoDB.py --prefix Development```    |
 
 ## Contributing
