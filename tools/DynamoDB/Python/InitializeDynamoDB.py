@@ -6,6 +6,7 @@
 #!/usr/bin/python
 
 import sys, boto3, json, getopt
+from botocore.exceptions import ClientError
 
 def main(argv):
    ddbTablePrefix = ''
@@ -86,8 +87,11 @@ def CreateTables(prefix):
             }
         )
         print("+Client table created")
-    except:
-        print("-Client table already exists")
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'EntityAlreadyExists':
+            print "+Client table already exists"
+        else:
+            print "Unexpected error: %s" % e
 
     # Create ApiResource Table
     try:
@@ -133,8 +137,11 @@ def CreateTables(prefix):
             }
         )
         print("+ApiResource table created")
-    except:
-        print("-ApiResource table already exists")
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'EntityAlreadyExists':
+            print "+ApiResource table already exists"
+        else:
+            print "Unexpected error: %s" % e
 
     # Create IdentityResource Table
     try:
@@ -180,8 +187,11 @@ def CreateTables(prefix):
             }
         )
         print('+IdentityResource table created')
-    except:
-        print('-IdentityResource table already exists')
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'EntityAlreadyExists':
+            print "+IdentityResource table already exists"
+        else:
+            print "Unexpected error: %s" % e
 
     # Create PersistedGrant Table
     try:
@@ -267,8 +277,11 @@ def CreateTables(prefix):
             }
         )
         print('+PersistedGrant table created')
-    except:
-        print('-PersistedGrant table already exists')
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'EntityAlreadyExists':
+            print "+PersistedGrant table already exists"
+        else:
+            print "Unexpected error: %s" % e
 
     try:
         ttl_response = ddb.update_time_to_live(
@@ -279,8 +292,11 @@ def CreateTables(prefix):
             }
         )
         print('+PersistedGrant table enabled ttl')
-    except:
-        print('-PersistedGrant table already enabled ttl')
+    except ClientError as e:
+        if e.response['Error']['Code'] == 'EntityAlreadyExists':
+            print "+PersistedGrant table enabled ttl already exists"
+        else:
+            print "Unexpected error: %s" % e
 
 
     print ('\n\n **** Process completed ***\n\n')
