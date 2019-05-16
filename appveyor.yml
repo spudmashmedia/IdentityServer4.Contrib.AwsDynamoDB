@@ -20,14 +20,6 @@ deploy:
   skip_symbols: true
   on:
     branch: master
-- provider: NuGet
-  name: production
-  api_key:
-    secure: 99EzZGKql3dmUwAjLi1keNAnZHTQHwxc/DUw04PX0zEmOA51looWOjoAFfJLdmtT
-  skip_symbols: true
-  on:
-    branch: master
-    appveyor_repo_tag: true
 image: Visual Studio 2017
 
 #install:
