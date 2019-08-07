@@ -25,7 +25,7 @@ namespace Host.Configuration
                     AllowOfflineAccess = true,
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes = { "api1", "api2.read_only" }
+                    AllowedScopes = { "api1", "api2.read_only", "api2.full_access" }
                 }
             };
         }
