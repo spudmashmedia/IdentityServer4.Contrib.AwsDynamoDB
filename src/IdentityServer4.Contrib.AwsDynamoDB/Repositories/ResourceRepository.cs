@@ -113,8 +113,10 @@ namespace IdentityServer4.Contrib.AwsDynamoDB.Repositories
                         {
                             var dataset = await batch.GetNextSetAsync();
                             if(dataset.Any()){
-                                response.AddRange(dataset.Select(item => item.GetApiResource()));
-                            }
+                              var resources = dataset.Select (items => items.GetApiResource ())?.Distinct ();
+                                foreach (var i in resources) {
+                                    if (!response.Exists(x => x.Name == i.Name)) { response.Add (i); }
+                                }                            }
                         }
                     }
                 }
